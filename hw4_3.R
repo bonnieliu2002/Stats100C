@@ -11,23 +11,22 @@ q <- lm(a$lead ~ a$zinc)
 summary(q)
 
 # central t-distribution
-x <- seq(-10, 10, 0.5)
+x <- seq(-10, 10, 0.05)
 y <- dt(x, n-2, ncp=0)
 plot(x, y, type="l", lwd=5, ylab=substitute(f(x)), xlim=c(-11,11))
 
-# # noncentral t-distribution
-# beta1 <- 0.05
-# sigma2 <- 600
-# ncp <- (beta1-0)*sqrt()
-# 
-# print(var(a$zinc))
+# noncentral t-distribution
+beta1 <- 0.05
+sigma2 <- 600
+ncp1 <- beta1 * sqrt((n - 1)*var(a$zinc)) / sqrt(sigma2)
+x <- seq(-10, 10, 0.05)
+y <- dt(x, n-2, ncp=ncp1)
+points(x, y, type="l", lwd=5, col="blue", ylab=substitute(f(x)))
 
-# # b1 is Beta_1_hat
-# b1 <- q$coef[2]
-# # Se is the square root of sample variance
-# Se <- summary(q)$sigma
-# 
-# # t-statistic
-# t <- b1 / (Se/sqrt(sum((a$zinc - mean(a$zinc))^2))) # calculated from equation from 3a
-# print(t) # prints 18.22474
-# print(2 * (1 - pt(t, n-1))) # two-side t-test; prints 0
+# compute critical value (rejection region using alpha=0.05)
+crit_val_upper = qt(.975, n-2)
+print(crit_val_upper)
+crit_val_lower = qt(.025,  n-2)
+print(crit_val_lower)
+# compute the power when beta1=0.05 and sigma2=600
+print(pt(crit_val_upper, n-2, ncp=ncp1, lower.tail=FALSE) + pt(crit_val_lower, n-2, ncp=ncp1))
