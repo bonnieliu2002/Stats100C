@@ -1,14 +1,11 @@
 # read in the table
 a1 <- read.table("http://www.stat.ucla.edu/~nchristo/statistics100C/soil.txt", header=TRUE)
-
 # n is the number of observations
 n = 30
 # only want to use first 30 rows of data set
 a <- a1[1:n, ]
-
 # apply linear model with lead as our response variable and zinc as predictor variable
 q <- lm(a$lead ~ a$zinc)
-summary(q)
 
 # central t-distribution (black curve)
 x <- seq(-7, 10, 0.05)
@@ -17,10 +14,10 @@ plot(x, y, type="l", lwd=5, ylab=substitute(f(x)), xlim=c(-8,11))
 
 # noncentral t-distribution (blue curve)
 beta1 <- 0.05
-sigma2 <- 600
-ncp1 <- beta1 * sqrt((n - 1)*var(a$zinc)) / sqrt(sigma2) # using equation from 
+pop_var <- 600
+our_ncp <- beta1 * sqrt((n - 1)*var(a$zinc)) / sqrt(pop_var) # using equation from 3c
 x <- seq(-7, 10, 0.05)
-y <- dt(x, n-2, ncp=ncp1)
+y <- dt(x, n-2, ncp=our_ncp)
 points(x, y, type="l", lwd=5, col="blue", ylab=substitute(f(x)))
 
 # compute critical value (rejection region using alpha=0.05)
