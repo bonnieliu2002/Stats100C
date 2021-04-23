@@ -28,4 +28,4 @@ crit_val_lower = qt(.025,  n-2)
 print(crit_val_lower) # prints -2.048407
 abline(v=crit_val_lower, col="red", lwd=2.5)
 # compute the power when beta1=0.05 and sigma2=600
-print(pt(crit_val_upper, n-2, ncp=ncp1, lower.tail=FALSE) + pt(crit_val_lower, n-2, ncp=ncp1)) # prints 0.9208974
+print(pt(crit_val_upper, n-2, ncp=our_ncp, lower.tail=FALSE) + pt(crit_val_lower, n-2, ncp=our_ncp)) # prints 0.9208974
